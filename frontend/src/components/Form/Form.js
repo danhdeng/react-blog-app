@@ -30,9 +30,11 @@ export default function PostForm({currentId, setCurrentId}) {
         }else{
             dispatch(createPost(postData));
         }
+        clear();
     }
 
     const clear=()=>{
+        setCurrentId(null);
         setPostData({
             title: '',
             message: '',
@@ -46,7 +48,7 @@ export default function PostForm({currentId, setCurrentId}) {
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6">
-                    Creating a Post
+                   {currentId ? "Edting" : "Creating"} a Post
                 </Typography>
                 <TextField 
                     name="title" 

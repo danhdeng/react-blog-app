@@ -55,3 +55,22 @@ export const deletePost=async(req, res)=>{
         //res.status(404).json(`Something Wrong Post does not delete`);
     }
 }
+
+export const likePost=async(req, res)=>{
+    const {id}=req.params;
+   if(!mongoose.Types.ObjectId.isValid(id)){
+        return res.status(404).json(`No Post with that id ${id}`);
+    }
+    try{
+       const post= await PostMessage.findById(id);
+       if(post){
+            const updatedPost = await PostMessage.findByIdAndUpdate(id, {likeCount: post.likeCount+1}, {new: true});
+            return res.status(200).json(updatedPost);
+        }
+        
+    }catch(err){
+        console.error(err.message);
+        //res.status(404).json(`Something Wrong Post does not delete`);
+    }
+    res.status(404).json(`Something Wrong with Like Post`);
+}

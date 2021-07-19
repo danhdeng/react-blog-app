@@ -3,7 +3,6 @@ import PostMessage from "../model/postMessage.js";
 export const getPosts=async (req, res)=>{
     try{
         const postMessage=await PostMessage.find();
-        console.log(postMessage);
         res.status(200).json(postMessage);
     }catch(err){
     
@@ -14,8 +13,8 @@ export const getPosts=async (req, res)=>{
 
 export const createPost=async (req, res)=>{
     const { title, message, selectedFile, creator, tags } = req.body;
-
-    const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags })
+    const allTags = tags.replace(/ /g,"").split(",");
+    const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags:allTags })
 
       try{
         await newPostMessage.save();

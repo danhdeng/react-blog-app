@@ -12,7 +12,6 @@ import {getPosts} from './actions/posts';
 
 
 export default function App() {
-    console.log("api url:", process.env.REACT_APP_API_URL);
     const classes=useStyles();
     const dispatch=useDispatch();
 

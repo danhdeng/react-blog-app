@@ -20,7 +20,6 @@ app.use(cors());
 app.use("/posts", postRoute);
 
 const PORT=process.env.PORT ||5000;
-console.log("mongodb connection: ", process.env.MONGODB_CONNECTION);
 mongoose.connect(process.env.MONGODB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(()=>app.listen(PORT, ()=>console.log(`server is running on port: ${PORT}`)))
     .catch(error=>console.error(error.message));

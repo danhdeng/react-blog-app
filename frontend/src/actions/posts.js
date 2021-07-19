@@ -13,7 +13,6 @@ export const getPosts=()=>async(dispatch) =>{
 
 export const createPost=(post)=>async(dispatch) =>{
     try{
-        console.log("create post");
         const {data}=await api.createPost(post);
         dispatch({type: "CREATE", payLoad:data});
     

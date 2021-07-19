@@ -18,7 +18,6 @@ export default function PostForm() {
     });
     const handleSubmit=(e)=>{
         e.preventDefault();
-        console.log('psotData:',postData);
         dispatch(createPost(postData));
     }
 

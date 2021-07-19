@@ -17,7 +17,6 @@ export default function PostForm({currentId, setCurrentId}) {
     const classes=useStyles();
     const dispatch=useDispatch();
     const post=useSelector((state)=>currentId ? state.posts.find((p)=>p._id===currentId): null);
-   
     useEffect(()=>{
         if(post){
             setPostData(post);
@@ -27,7 +26,7 @@ export default function PostForm({currentId, setCurrentId}) {
     const handleSubmit=(e)=>{
         e.preventDefault();
         if(currentId){
-            dispatch(updatePost(postData));
+            dispatch(updatePost(currentId,postData));
         }else{
             dispatch(createPost(postData));
         }

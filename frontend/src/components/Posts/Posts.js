@@ -6,7 +6,6 @@ import PostItem from './Post/postItem.js';
 
 export default function Posts({setCurrentId}) {
     const posts=useSelector((state)=>state.posts);
-    console.log("posts: ", posts);
     const classes=useStyles();
     return (
         !posts.length ? <CircularProgress /> : (

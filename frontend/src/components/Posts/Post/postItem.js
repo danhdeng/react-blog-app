@@ -21,7 +21,7 @@ export default function PostItem({post, setCurrentId}) {
             </div>
             <div className={classes.overlay2}>
                 <Button style={{color: 'white'}} size='small' onClick={()=>setCurrentId(post._id)}>
-                    <MoreHorizIcon fontSize="default" />
+                    <MoreHorizIcon fontSize="medium" />
                 </Button>
             </div>
             <div className={classes.details}>

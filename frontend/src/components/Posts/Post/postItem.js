@@ -26,7 +26,7 @@ export default function PostItem({post}) {
             <CardContent>
                 <Typography className={classes.title} variant="h5" gutterBottom>{post.message}</Typography>
             </CardContent>
-            <CardActions>
+            <CardActions className={classes.cardActions}>
                 <Button size='small' color="primary" onClick={()=>{}}>
                     <ThumUpAltIcon fontSize='small'/>
                     like

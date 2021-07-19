@@ -5,6 +5,8 @@ export const postsReducer = (posts=[], action) => {
             return action.payLoad;
         case 'CREATE':
             return [...posts, action.payLoad];
+        case 'UPDATE':
+            return posts.map((post)=>(post._id===action.payLoad._id ? action.payLoad : post));
         default:
             return posts;
     }

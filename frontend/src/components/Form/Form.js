@@ -1,14 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import useStyles from './styles.js';
 import {TextField, Button, Typography, Paper} from "@material-ui/core";
 import FileBase from 'react-file-base64';
 import {useDispatch} from 'react-redux';
-import { createPost } from '../../actions/posts.js';
+import { createPost, updatePost } from '../../actions/posts.js';
+import { useSelector } from 'react-redux';
 
-export default function PostForm() {
-    const classes=useStyles();
-    const dispatch=useDispatch();
-
+export default function PostForm({currentId, setCurrentId}) {
     const [postData, setPostData]=useState({
         title: '',
         message: '',
@@ -16,9 +14,23 @@ export default function PostForm() {
         tags: '',
         selectedFile: ''
     });
+    const classes=useStyles();
+    const dispatch=useDispatch();
+    const post=useSelector((state)=>currentId ? state.posts.find((p)=>p._id===currentId): null);
+   
+    useEffect(()=>{
+        if(post){
+            setPostData(post);
+        }
+    },[post])
+    
     const handleSubmit=(e)=>{
         e.preventDefault();
-        dispatch(createPost(postData));
+        if(currentId){
+            dispatch(updatePost(postData));
+        }else{
+            dispatch(createPost(postData));
+        }
     }
 
     const clear=()=>{

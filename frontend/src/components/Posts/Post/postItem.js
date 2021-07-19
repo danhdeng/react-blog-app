@@ -6,7 +6,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 
-export default function PostItem({post}) {
+export default function PostItem({post, setCurrentId}) {
     const classes=useStyles();
     return (
         <Card className={classes.card}>
@@ -27,7 +27,7 @@ export default function PostItem({post}) {
                 <Typography className={classes.title} variant="h5" gutterBottom>{post.message}</Typography>
             </CardContent>
             <CardActions className={classes.cardActions}>
-                <Button size='small' color="primary" onClick={()=>{}}>
+                <Button size='small' color="primary" onClick={()=>setCurrentId(post._id)}>
                     <ThumUpAltIcon fontSize='small'/>
                     like
                     {post.likeCount}

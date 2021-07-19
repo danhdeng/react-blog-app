@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container, AppBar, Typography, Grow, Grid} from '@material-ui/core';
 import memoriesImg from './images/memories.png';
 import Posts from "./components/Posts/Posts.js";
@@ -12,6 +12,7 @@ import {getPosts} from './actions/posts';
 
 
 export default function App() {
+    const [currentId, setCurrentId]=useState(null);
     const classes=useStyles();
     const dispatch=useDispatch();
 
@@ -29,10 +30,10 @@ export default function App() {
                 <Container>
                     <Grid container justify="space-between" alignItems="stretch" spacing={3}>
                             <Grid item xs={12} sm={7}>
-                                <Posts />
+                                <Posts setCurrentId={setCurrentId}/>
                             </Grid>
                             <Grid item xs={12} sm={4}>
-                                <PostForm />
+                                <PostForm currentId={currentId} setCurrentId={setCurrentId} />
                             </Grid>
                     </Grid>
                 </Container>

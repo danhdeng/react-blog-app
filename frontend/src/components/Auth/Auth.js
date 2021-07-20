@@ -5,12 +5,17 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Input from './Input';
 import GoogleLogin from 'react-google-login';
 import Icon from './Icon';
+import {useDispatch} from 'react-redux';
+import {useHistory} from 'react-router-dom';
+import {AUTH} from '../../constants/actionTypes';
+
 
 export default function Auth() {
     const [showPassword, setShowPassword]=useState(false);
     const [isSignup, setIsSignup]=useState(false);
     const classes=useStyles();
-
+    const dispatch=useDispatch();
+    const history=useHistory();
     const handleSubmit=()=>{
 
     }
@@ -27,11 +32,19 @@ export default function Auth() {
         handleShowPassword(false);
     }
 
-    const googleSuccess=(res)=>{
-        console.log(res);
+    const googleSuccess=async (res)=>{
+        const result=res?.profileObj;
+        const token=res?.tokenId;
+        try{
+            dispatch({type:AUTH, data:{result, token}});
+            history.push('/');
+        }catch(error){
+            console.log(error);
+        }
     }
 
-    const googleFailure=()=>{
+    const googleFailure=(error)=>{
+        console.log(error);
         console.log("Google login failed, please try again!")
     }
 
@@ -60,6 +73,7 @@ export default function Auth() {
                             )   
                         }
                     </Grid>
+                    <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>{isSignup ? "Sign Up" : "Sign In"}</Button>
                     <GoogleLogin
                         clientId={process.env.REACT_APP_GOOGLE_CLIENT}
                         render={renderProps => (
@@ -68,7 +82,7 @@ export default function Auth() {
                                 fullWidth
                                 onClick={renderProps.onClick}
                                 disabled={renderProps.disabled}
-                                starIcon={<Icon />}
+                                startIcon={<Icon />}
                                 variant="contained"
                                 color='primary'
                                 >
@@ -79,7 +93,6 @@ export default function Auth() {
                         onFailure={googleFailure}
                         cookiePolicy={'single_host_origin'}
                     />
-                        <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>{isSignup ? "Sign Up" : "Sign In"}</Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
                             <Button onClick={switchMode}>

@@ -3,7 +3,6 @@ import {FETCH_ALL, CREATE, DELETE, UPDATE} from '../constants/actionTypes';
 
 export const getPosts=()=>async(dispatch) =>{
     try{
-        console.log("fetch all:", FETCH_ALL);
         const {data}=await api.fetchPosts();
         dispatch({type: FETCH_ALL, payLoad:data});
     
@@ -45,7 +44,6 @@ export const deletePost=(id)=>async (dispatch)=>{
 export const likePost=(id)=>async(dispatch) =>{
     try{
         const {data}=await api.likePost(id);
-        console.log(data);
         dispatch({type: UPDATE, payLoad: data});
     
     }catch(error){

@@ -6,8 +6,8 @@ import Input from './Input';
 
 export default function Auth() {
     const [showPassword, setShowPassword]=useState(false);
+    const [isSignup, setIsSignup]=useState(false);
     const classes=useStyles();
-    const isSignup=true;
 
     const handleSubmit=()=>{
 
@@ -18,6 +18,11 @@ export default function Auth() {
 
     const handleShowPassword=()=>{
         setShowPassword((prevShowPassword)=>!prevShowPassword);
+    }
+
+    const switchMode=()=>{
+        setIsSignup((prevIsSignup)=>!prevIsSignup);
+        handleShowPassword(false);
     }
 
     return (
@@ -46,6 +51,13 @@ export default function Auth() {
                         }
                     </Grid>
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>{isSignup ? "Sign Up" : "Sign In"}</Button>
+                    <Grid container justifyContent="flex-end">
+                        <Grid item>
+                            <Button onClick={switchMode}>
+                                {isSignup ? "Already have an account? Sign In" : "Don't have an account? Sign Up"}
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </form>
             </Paper>
         </Container>

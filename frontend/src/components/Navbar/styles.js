@@ -10,11 +10,12 @@ export default makeStyles((theme)=>({
         margin: '30px 0',
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
       },
       heading: {
         color: 'rgba(0,183,255, 1)',
+        textDecoration: 'none',
       },
       image: {
         marginLeft: '15px',
@@ -26,7 +27,7 @@ export default makeStyles((theme)=>({
       toolbar:{
         display: 'flex',
         justifyContent: 'flex-end',
-        maxWidth: '800px'
+        width: '400px'
       },
       profile: {
         display: 'flex',

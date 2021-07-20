@@ -3,6 +3,8 @@ import {Avatar, Button, Paper, Grid, Typography, Container} from '@material-ui/c
 import useStyles from './styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Input from './Input';
+import GoogleLogin from 'react-google-login';
+import Icon from './Icon';
 
 export default function Auth() {
     const [showPassword, setShowPassword]=useState(false);
@@ -23,6 +25,14 @@ export default function Auth() {
     const switchMode=()=>{
         setIsSignup((prevIsSignup)=>!prevIsSignup);
         handleShowPassword(false);
+    }
+
+    const googleSuccess=(res)=>{
+        console.log(res);
+    }
+
+    const googleFailure=()=>{
+        console.log("Google login failed, please try again!")
     }
 
     return (
@@ -50,6 +60,25 @@ export default function Auth() {
                             )   
                         }
                     </Grid>
+                    <GoogleLogin
+                        clientId={process.env.REACT_APP_GOOGLE_CLIENT}
+                        render={renderProps => (
+                            <Button
+                                className={classes.googleButton}
+                                fullWidth
+                                onClick={renderProps.onClick}
+                                disabled={renderProps.disabled}
+                                starIcon={<Icon />}
+                                variant="contained"
+                                color='primary'
+                                >
+                                Google Sign In
+                            </Button>
+                        )}
+                        onSuccess={googleSuccess}
+                        onFailure={googleFailure}
+                        cookiePolicy={'single_host_origin'}
+                    />
                         <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>{isSignup ? "Sign Up" : "Sign In"}</Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>

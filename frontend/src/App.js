@@ -12,7 +12,6 @@ export default function App() {
         <BrowserRouter>
         <Container maxWidth="lg">
             <Navbar />
-            
                 <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/auth" component={Auth} />

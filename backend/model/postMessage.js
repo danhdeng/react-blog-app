@@ -7,6 +7,7 @@ const postSchema=mongoose.Schema(
         creator: String,
         tags: [String],
         selectedFile: String,
+        likes:[String],
         likeCount: {
             type: Number,
             default: 0,

@@ -13,6 +13,9 @@ export const getPosts=async (req, res)=>{
 }
 
 export const createPost=async (req, res)=>{
+    if(!req.userId){
+        return res.status(400).json({message: 'Unauthenticated'});
+    }
     const { title, message, selectedFile, creator, tags } = req.body;
     const allTags = tags.replace(/ /g,"").split(",");
     const newPostMessage = new PostMessage({ title, message, selectedFile, creator, tags:allTags })
@@ -28,6 +31,9 @@ export const createPost=async (req, res)=>{
 }
 
 export const updatePost=async(req, res)=>{
+    if(!req.userId){
+        return res.status(400).json({message: 'Unauthenticated'});
+    }
     const {id:_id}=req.params;
     const post=req.body;
     if(!mongoose.Types.ObjectId.isValid(_id)){
@@ -43,6 +49,9 @@ export const updatePost=async(req, res)=>{
 }
 
 export const deletePost=async(req, res)=>{
+    if(!req.userId){
+        return res.status(400).json({message: 'Unauthenticated'});
+    }
     const {id:_id}=req.params;
     if(!mongoose.Types.ObjectId.isValid(_id)){
         return res.status(404).json(`No Post with that id ${_id}`);
@@ -57,6 +66,9 @@ export const deletePost=async(req, res)=>{
 }
 
 export const likePost=async(req, res)=>{
+    if(!req.userId){
+        return res.status(400).json({message: 'Unauthenticated'});
+    }
     const {id}=req.params;
    if(!mongoose.Types.ObjectId.isValid(id)){
         return res.status(404).json(`No Post with that id ${id}`);

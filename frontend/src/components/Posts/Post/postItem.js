@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useState} from 'react'
 import useStyles from './styles.js';
 import {Card, CardActions , CardContent, CardMedia, Button, Typography} from '@material-ui/core';
 import ThumUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
@@ -12,6 +13,22 @@ import { useDispatch } from 'react-redux';
 export default function PostItem({post, setCurrentId}) {
     const classes=useStyles();
     const dispatch=useDispatch();
+    const [user, ]=useState( JSON.parse(localStorage.getItem('profile')));
+
+    const Like=()=>{
+        if(post.likes.length>0){
+            return (post.likes.find((like)=>(user?.result?._id===post._id || user?.result?.googleId ===post._id)) ?
+            (<>
+                 <ThumUpAltIcon fontSize='small'/>
+            </>)
+            :(
+            <>
+                <ThumUpAltIcon fontSize='small'/>&nbsp; {post.likes?.length} {post.likes?.length>1 ? "likes" :"like"}
+            </>
+            ))
+        }
+        return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
+    }
     return (
         <Card className={classes.card}>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
@@ -20,9 +37,11 @@ export default function PostItem({post, setCurrentId}) {
                 <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className={classes.overlay2}>
+            { (user?.result?._id===post.creator || user?.result?.googleId ===post.creator) &&
                 <Button style={{color: 'white'}} size='small' onClick={()=>setCurrentId(post._id)}>
                     <MoreHorizIcon fontSize="medium" />
                 </Button>
+            }
             </div>
             <div className={classes.details}>
                 <Typography variant="body2" color="textSecondary">{post.tags.map((tag)=>`#${tag}, `)}</Typography>
@@ -33,14 +52,14 @@ export default function PostItem({post, setCurrentId}) {
             </CardContent>
             <CardActions className={classes.cardActions}>
                 <Button size='small' color="primary" onClick={()=>dispatch(likePost(post._id))}>
-                    <ThumUpAltIcon fontSize='small'/>
-                    &nbsp; like &nbsp;
-                    {post.likes?.length}
+                    <Like />
                 </Button>
-                <Button size='small' color="primary" onClick={()=>dispatch(deletePost(post._id))}>
-                    <DeleteIcon fontSize='small'/>
-                    Delete
-                 </Button>
+                { (user?.result?._id===post.creator || user?.result?.googleId ===post.creator) &&
+                    <Button size='small' color="primary" onClick={()=>dispatch(deletePost(post._id))}>
+                        <DeleteIcon fontSize='small'/>
+                        Delete
+                    </Button>
+                }
             </CardActions>
         </Card>
     )

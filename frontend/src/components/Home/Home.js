@@ -1,8 +1,9 @@
 import React,{useState, useEffect} from 'react'
-import {Container, Grow, Grid} from '@material-ui/core';
+import {Container, Grow, Grid, Paper} from '@material-ui/core';
 import Posts from "../Posts/Posts.js";
 import PostForm from "../Form/Form.js";
 import useStyles from './styles.js';
+import Paginate from '../Pagination/Pagination';
 
 //use redux dispatch hook from react-redux
 import {useDispatch} from "react-redux";
@@ -27,6 +28,9 @@ export default function Home() {
                             </Grid>
                             <Grid item xs={12} sm={4}>
                                 <PostForm currentId={currentId} setCurrentId={setCurrentId} />
+                                <Paper elevation={6}>
+                                    <Paginate />
+                                </Paper>
                             </Grid>
                     </Grid>
                 </Container>

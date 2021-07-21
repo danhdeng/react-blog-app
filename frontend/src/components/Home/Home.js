@@ -31,8 +31,9 @@ export default function Home() {
         }
     }
     const searchPost=()=>{
-        if(search.trim()){
+        if(search.trim()|| tags){
             dispatch(searchPosts({search, tags: tags.join(',')}));
+            history.push(`/posts/search?searchQuery=${search} || "none"}&&tags=${tags}`);
         }
         else{
             history.push('/');

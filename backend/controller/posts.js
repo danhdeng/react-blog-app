@@ -93,3 +93,17 @@ export const likePost=async(req, res)=>{
     }
     res.status(404).json(`Something Wrong with Like Post`);
 }
+
+export const searchPosts=async (req, res)=>{
+    try{
+        const {searchQuery, tags}=req.query;
+        const title=new RegExp(searchQuery, "i");
+        const posts=await PostMessage.find({$or:[{title}, {tags:{$in: tags.split(",") } }]});
+        res.status(200).json(posts);
+
+    }catch(err){
+    
+        console.error(err.message);
+        res.status(404).json({message: err.message});
+    }
+}

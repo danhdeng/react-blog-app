@@ -1,15 +1,23 @@
 import axios from 'axios';
 
-const postUrl=process.env.REACT_APP_POST_API_URL;
-const userUrl=process.env.REACT_APP_USER_API_URL;
+const API=axios.create( {baseURL:process.env.REACT_APP_API_URL});
+const posts="/posts";
+const user="/user";
 
-export const fetchPosts=()=>axios.get(postUrl);
-export const createPost=(newPost)=>axios.post(postUrl, newPost);
-export const updatePost=(id, updatedData)=>axios.patch(`${postUrl}/${id}`, updatedData); 
-export const deletePost=(id)=>axios.delete(`${postUrl}/${id}`);
-export const likePost=(id)=>axios.patch(`${postUrl}/${id}/likePost`);
+API.interceptors.request.use((req)=>{
+    if(localStorage.getItem('profile')){
+     req.headers.authorization=`Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
+    }
+    return req;
+});
 
-export const signIn=(formData)=>axios.post(`${userUrl}/signin`);
+export const fetchPosts=()=>API.get(posts);
+export const createPost=(newPost)=>API.post(posts, newPost);
+export const updatePost=(id, updatedData)=>API.patch(`${posts}/${id}`, updatedData); 
+export const deletePost=(id)=>API.delete(`${posts}/${id}`);
+export const likePost=(id)=>API.patch(`${posts}/${id}/likePost`);
 
-export const signUp=(formData)=>axios.post(`${userUrl}/signUp`);
+export const signIn=(formData)=>API.post(`${user}/signin`, formData);
+
+export const signUp=(formData)=>API.post(`${user}/signUp`, formData);
  

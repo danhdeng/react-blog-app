@@ -26,9 +26,7 @@ export default function Auth() {
     const dispatch=useDispatch();
     const history=useHistory();
     const handleSubmit=(e)=>{
-        console.log("submit button click");
         e.preventDefault();
-        console.log(formData);
         if(isSignup){
             dispatch(signUp(formData, history));
         }

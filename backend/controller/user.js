@@ -14,7 +14,7 @@ export const signIn=async (req, res)=>{
         if(!isPasswordMatch){
             return res.status(400).json({message: "Invalid credential!"});
         }
-        const token=jwt.sign({email: existingUser.email, id: existingUser._id}, process.env.JWTSECRET, {expiresIn: "1h"});
+        const token=jwt.sign({email: existingUser.email, id: existingUser._id}, process.env.SECRET, {expiresIn: "1h"});
         res.status(200).json({result:existingUser, token});
     }catch(err){
         console.error(err.message);
@@ -31,10 +31,12 @@ export const signUp=async (req, res)=>{
     if(password !== confirmPassword){
         return res.status(400).json({message: "Password do not match"});
     }
-    const hashPassword=await bcrypt.hash(password, 12);
+    const salt = bcrypt.genSaltSync(10);
+    const hashPassword = bcrypt.hashSync(password, salt);
+
     try{
         const newUser = await User.create({ firstName, lastName, email, password:hashPassword, name:`${firstName} ${lastName}` });
-        const token=jwt.sign({email: newUser.email, id: newUser._id}, process.env.JWTSECRET, {expiresIn: "1h"});
+        const token=jwt.sign({email: newUser.email, id: newUser._id}, process.env.SECRET, {expiresIn: "1h"});
         res.status(200).json({result:newUser, token});
 
     }catch(err){

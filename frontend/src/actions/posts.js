@@ -7,7 +7,7 @@ export const getPosts=()=>async(dispatch) =>{
         dispatch({type: FETCH_ALL, payLoad:data});
     
     }catch(error){
-        console.log(error.message);
+        console.log(error.response);
     }
 }
 
@@ -17,7 +17,7 @@ export const createPost=(post)=>async(dispatch) =>{
         dispatch({type: CREATE, payLoad:data});
     
     }catch(error){
-        console.log(error.message);
+        console.log(error.response);
     }
 }
 
@@ -27,7 +27,7 @@ export const updatePost=(id, post)=>async(dispatch) =>{
         dispatch({type: UPDATE, payLoad: data});
     
     }catch(error){
-        console.log(error.message);
+        console.log(error.response);
     }
     
 }
@@ -37,7 +37,7 @@ export const deletePost=(id)=>async (dispatch)=>{
         await api.deletePost(id);
         dispatch({type:DELETE, payLoad:id});
     }catch(error){
-        console.log(error.message);
+        console.log(error.response);
     }
 }
 
@@ -47,6 +47,6 @@ export const likePost=(id)=>async(dispatch) =>{
         dispatch({type: UPDATE, payLoad: data});
     
     }catch(error){
-        console.log(error.message);
+        console.log(error.response);
     }
 }

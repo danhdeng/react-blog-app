@@ -7,7 +7,7 @@ export const auth=(req, res, next)=>{
         let decodeData;
         if(token && isCustomToken){
             decodeData=jwt.verify(token, process.env.SECRET);
-            req.userId=decodeData._id;
+            req.userId=decodeData.id;
         }
         else{
             decodeData=jwt.verify(token);

@@ -10,13 +10,13 @@ export default function PostForm({currentId, setCurrentId}) {
     const [postData, setPostData]=useState({
         title: '',
         message: '',
-        creator: '',
         tags: '',
         selectedFile: ''
     });
     const classes=useStyles();
     const dispatch=useDispatch();
     const post=useSelector((state)=>currentId ? state.posts.find((p)=>p._id===currentId): null);
+    const [user, ]=useState( JSON.parse(localStorage.getItem('profile')));
     useEffect(()=>{
         if(post){
             setPostData(post);
@@ -26,11 +26,11 @@ export default function PostForm({currentId, setCurrentId}) {
     const handleSubmit=(e)=>{
         e.preventDefault();
         if(currentId){
-            dispatch(updatePost(currentId,postData));
+            dispatch(updatePost(currentId,{...postData, name:user?.result?.name}));
         }else{
-            dispatch(createPost(postData));
+            dispatch(createPost({...postData, name:user?.result?.name}));
         }
-        clear();
+        //clear();
     }
 
     const clear=()=>{
@@ -38,10 +38,16 @@ export default function PostForm({currentId, setCurrentId}) {
         setPostData({
             title: '',
             message: '',
-            creator: '',
             tags: '',
             selectedFile: ''
         });
+    }
+    if(!user){
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant="h6" align="center">Please sign in to create a post and like the posts</Typography>
+            </Paper>
+        );
     }
     return (
         
@@ -67,15 +73,7 @@ export default function PostForm({currentId, setCurrentId}) {
                     onChange={(e)=>setPostData({...postData, message:e.target.value })}
                     />
 
-                 <TextField 
-                    name="creator" 
-                    variant="outlined" 
-                    label="creator" 
-                    fullWidth
-                    value={postData.creator} 
-                    onChange={(e)=>setPostData({...postData, creator:e.target.value })}
-                    />
-                <TextField 
+               <TextField 
                     name="tags" 
                     variant="outlined" 
                     label="Tags (coma separated)" 
@@ -85,11 +83,7 @@ export default function PostForm({currentId, setCurrentId}) {
                     />
 
                 <div className={classes.fileInput}>
-                    <FileBase 
-                        type="file"
-                        multiple={false}
-                        onDone={(uploadFile)=>setPostData({...postData, selectedFile: uploadFile.base64})}
-                    />
+                    <FileBase type="file" multiple={false} onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
                 </div>
                 <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
                 <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>

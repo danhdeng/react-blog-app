@@ -16,7 +16,7 @@ export default function PostItem({post, setCurrentId}) {
         <Card className={classes.card}>
             <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
             <div className={classes.overlay}>
-                <Typography variant="h6" >{post.creator}</Typography>
+                <Typography variant="h6" >{post.name}</Typography>
                 <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className={classes.overlay2}>
@@ -35,7 +35,7 @@ export default function PostItem({post, setCurrentId}) {
                 <Button size='small' color="primary" onClick={()=>dispatch(likePost(post._id))}>
                     <ThumUpAltIcon fontSize='small'/>
                     &nbsp; like &nbsp;
-                    {post.likeCount}
+                    {post.likes?.length}
                 </Button>
                 <Button size='small' color="primary" onClick={()=>dispatch(deletePost(post._id))}>
                     <DeleteIcon fontSize='small'/>

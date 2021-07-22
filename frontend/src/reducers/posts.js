@@ -1,14 +1,23 @@
-import {FETCH_ALL, CREATE, DELETE, UPDATE, SEARCH} from '../constants/actionTypes';
+import {FETCH_ALL, CREATE, DELETE, UPDATE, SEARCH, START_LOADING, END_LOADING, FETCH_POST} from '../constants/actionTypes';
 
 export const postsReducer =(state={ isLoading: true, posts: [] }, action) => {
     switch(action.type){
-        case FETCH_ALL:
+        case START_LOADING:
+            return {...state, isLoading:true};
+        case END_LOADING:
+            return {...state, isLoading:false};
+        case FETCH_POST:
             return {
                 ...state, 
-                currentPage: action.payload.currentPage,
-                posts: action.payload.data,
-                numberOfPages: action.payload.numberOfPages
+                post: action.payload.post,
             };
+        case FETCH_ALL:
+        return {
+            ...state, 
+            currentPage: action.payload.currentPage,
+            posts: action.payload.data,
+            numberOfPages: action.payload.numberOfPages
+        };
         case SEARCH:
             return {...state, posts:action.payload};
         case CREATE:

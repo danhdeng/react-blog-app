@@ -5,10 +5,12 @@ import {Grid, CircularProgress} from '@material-ui/core';
 import PostItem from './Post/postItem.js';
 
 export default function Posts({setCurrentId}) {
-    const {posts}=useSelector((state)=>state.posts);
+    const {posts, isLoading}=useSelector((state)=>state.posts);
     const classes=useStyles();
+    if(!posts.length && !isLoading) return "No posts";
+    if(isLoading) return  <CircularProgress />;
     return (
-        !posts?.length ? <CircularProgress /> : (
+        posts && (
             <Grid className={classes.Grid} container alignItems="stretch" spacing={3}>
                 {posts.map((post)=>(
                     <Grid item key={post._id} xs={12} sm={12} md={6} lg={3}>

@@ -10,7 +10,7 @@ export default function PostForm({currentId, setCurrentId}) {
     const [postData, setPostData]=useState({
         title: '',
         message: '',
-        tags: '',
+        tags: [],
         selectedFile: ''
     });
     const classes=useStyles();
@@ -30,7 +30,7 @@ export default function PostForm({currentId, setCurrentId}) {
         }else{
             dispatch(createPost({...postData, name:user?.result?.name}));
         }
-        //clear();
+        clear();
     }
 
     const clear=()=>{
@@ -38,7 +38,7 @@ export default function PostForm({currentId, setCurrentId}) {
         setPostData({
             title: '',
             message: '',
-            tags: '',
+            tags: [],
             selectedFile: ''
         });
     }

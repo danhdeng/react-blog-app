@@ -7,6 +7,7 @@ export const getPosts=(page)=>async(dispatch) =>{
         dispatch({type: FETCH_ALL, payload:data});
     
     }catch(error){
+        console.log(error);
         console.log(error.response);
     }
 }

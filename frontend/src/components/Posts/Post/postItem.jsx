@@ -19,7 +19,6 @@ export default function PostItem({post, setCurrentId}) {
     const [likes, setLikes]=useState(post?.likes);
     const userId=user?.result?._id || user?.result?.googleId;
     const hasLikePost=likes.find((like)=>like===userId);
-    console.log("haslike post:", hasLikePost);
     const handleLike=()=>{
         dispatch(likePost(post._id));
         if(hasLikePost){
@@ -40,9 +39,10 @@ export default function PostItem({post, setCurrentId}) {
         //       );
         // }
         // return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
-        if(post.likes.length>0){
-            return (hasLikePost) ?
-            (
+        if(likes.length>0){
+            console.log("has like found:",likes.find((like) => like === userId));
+            return likes.find((like) => like === userId)
+            ? (
                  <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
             )
             :(

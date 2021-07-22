@@ -26,7 +26,7 @@ export const getPost=async (req, res)=>{
         
     }catch(err){
     
-        console.error(err.message);
+        console.error("get post error:",err.message);
         res.status(404).json({message: err.message});
     }
 }
@@ -37,8 +37,8 @@ export const createPost=async (req, res)=>{
         return res.status(400).json({message: 'Unauthenticated'});
     }
     const { title,name, message, selectedFile, tags } = req.body;
-    const allTags = tags.replace(/ /g,"").split(",");
-    const newPostMessage = new PostMessage({  title, name, message, selectedFile, tags:allTags, creator: req.userId, createdAt: new Date().toISOString() })
+    //const allTags = tags.replace(/ /g,"").split(",");
+    const newPostMessage = new PostMessage({  title, name, message, selectedFile, tags, creator: req.userId, createdAt: new Date().toISOString() })
 
       try{
         await newPostMessage.save();
@@ -123,7 +123,7 @@ export const searchPosts=async (req, res)=>{
 
     }catch(err){
     
-        console.error(err.message);
+        console.error("search post error:",err);
         res.status(404).json({message: err.message});
     }
 }

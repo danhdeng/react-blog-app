@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react'
-import {Paper, Typography, CircularProgress, Divider, } from '@material-ui/core';
+import {Paper, Typography, CircularProgress, Divider, Grid } from '@material-ui/core';
 import useStyles from './styles.js';
 import {useDispatch,useSelector} from 'react-redux';
 import {useParams,useHistory} from "react-router-dom";
 import moment from 'moment';
-import {getPost} from '../../actions/posts';
+import {getPost, searchPosts} from '../../actions/posts';
+import PostItem from '../Posts/Post/postItem.js';
 
 export default function PostDetails() {
     const {post, posts, isLoading} = useSelector((state)=>state.posts);
@@ -12,11 +13,17 @@ export default function PostDetails() {
     const dispatch=useDispatch();
     const history=useHistory();
     const {id}=useParams();
-    const recommendedPosts=[];
 
     useEffect(()=>{
         dispatch(getPost(id));
     },[id]);
+
+    useEffect(()=>{
+      console.log(post);
+      if(post) dispatch(searchPosts({search: 'none', tags: post?.tags?.join(",")}));
+  },[post]);
+
+     const recommendedPosts=posts.filter(({_id})=>_id !==post._id);
 
     const openPost=()=>{
         history.push(`/posts/${post._id}`);
@@ -54,17 +61,13 @@ export default function PostDetails() {
         <div className={classes.section}>
           <Typography gutterBottom variant="h5">You might also like:</Typography>
           <Divider />
-          <div className={classes.recommendedPosts}>
-            {recommendedPosts.map(({ title, name, message, likes, selectedFile, _id }) => (
-              <div style={{ margin: '20px', cursor: 'pointer' }} onClick={() => openPost(_id)} key={_id}>
-                <Typography gutterBottom variant="h6">{title}</Typography>
-                <Typography gutterBottom variant="subtitle2">{name}</Typography>
-                <Typography gutterBottom variant="subtitle2">{message}</Typography>
-                <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
-                <img src={selectedFile} width="200px" />
-              </div>
+          <Grid className={classes.Grid} container alignItems="stretch" spacing={3}>
+            {recommendedPosts.map((postItem) => (
+               <Grid item key={postItem._id} xs={12} sm={12} md={6} lg={3}>
+               <PostItem post={postItem} />
+           </Grid>
             ))}
-          </div>
+          </Grid>
         </div>
       )}
     </Paper>

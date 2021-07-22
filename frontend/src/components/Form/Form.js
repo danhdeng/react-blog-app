@@ -5,6 +5,7 @@ import FileBase from 'react-file-base64';
 import {useDispatch,useSelector} from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts.js';
 import ChipInput from 'material-ui-chip-input';
+import {useHistory} from 'react-router-dom';
 
 export default function PostForm({currentId, setCurrentId}) {
     const [postData, setPostData]=useState({
@@ -18,6 +19,7 @@ export default function PostForm({currentId, setCurrentId}) {
     const post=useSelector((state)=>currentId ? state.posts.find((p)=>p._id===currentId): null);
     const [user, ]=useState( JSON.parse(localStorage.getItem('profile')));
     const [tags, setTags]=useState([]);
+    const history=useHistory();
     useEffect(()=>{
         if(post){
             setPostData(post);
@@ -29,7 +31,7 @@ export default function PostForm({currentId, setCurrentId}) {
         if(currentId){
             dispatch(updatePost(currentId,{...postData, name:user?.result?.name}));
         }else{
-            dispatch(createPost({...postData, name:user?.result?.name}));
+            dispatch(createPost({...postData, name:user?.result?.name}, history));
         }
         clear();
     }

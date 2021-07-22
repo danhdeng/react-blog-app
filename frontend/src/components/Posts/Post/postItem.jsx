@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import useStyles from './styles.js';
 import {Card, CardActions , CardContent, CardMedia, Button, Typography, ButtonBase} from '@material-ui/core';
-import ThumUpAltIcon from '@material-ui/icons/ThumbUpAlt';
+import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import ThumbUpAltOutlined from '@material-ui/icons/ThumbUpAltOutlined';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -16,18 +16,40 @@ export default function PostItem({post, setCurrentId}) {
     const dispatch=useDispatch();
     const [user, ]=useState( JSON.parse(localStorage.getItem('profile')));
     const history=useHistory();
+    const [likes, setLikes]=useState(post?.likes);
+    const userId=user?.result?._id || user?.result?.googleId;
+    const hasLikePost=likes.find((like)=>like===userId);
+    console.log("haslike post:", hasLikePost);
+    const handleLike=()=>{
+        dispatch(likePost(post._id));
+        if(hasLikePost){
+            setLikes(post?.likes.filter((id)=>id!==userId));
+        }
+        else{
+            setLikes([...post?.likes, userId]);
+        }
+    }
 
     const Like=()=>{
+        // if(likes.length>0){
+        //     return (likes.find((like) => like === userId))
+        //     ? (
+        //         <><ThumbUpAltIcon fontSize="small" />&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}` }</>
+        //       ) : (
+        //         <><ThumbUpAltOutlined fontSize="small" />&nbsp;{likes.length} {likes.length === 1 ? 'Like' : 'Likes'}</>
+        //       );
+        // }
+        // return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
         if(post.likes.length>0){
-            return (post.likes.find((like)=>(user?.result?._id===post._id || user?.result?.googleId ===post._id)) ?
-            (<>
-                 <ThumUpAltIcon fontSize='small'/>
-            </>)
+            return (hasLikePost) ?
+            (
+                 <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}` }</>
+            )
             :(
             <>
-                <ThumUpAltIcon fontSize='small'/>&nbsp; {post.likes?.length} {post.likes?.length>1 ? "likes" :"like"}
+                <ThumbUpAltIcon fontSize='small'/>&nbsp; {post.likes?.length} {post.likes?.length>1 ? "likes" :"like"}
             </>
-            ))
+            )
         }
         return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
     }
@@ -58,7 +80,7 @@ export default function PostItem({post, setCurrentId}) {
             </CardContent>
             </ButtonBase>
             <CardActions className={classes.cardActions}>
-                <Button size='small' color="primary" onClick={()=>dispatch(likePost(post._id))}>
+                <Button size='small' color="primary" onClick={handleLike}>
                     <Like />
                 </Button>
                 { (user?.result?._id===post.creator || user?.result?.googleId ===post.creator) &&

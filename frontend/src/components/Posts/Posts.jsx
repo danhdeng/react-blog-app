@@ -2,7 +2,7 @@ import React from 'react'
 import useStyles from './styles.js';
 import {useSelector} from "react-redux";
 import {Grid, CircularProgress} from '@material-ui/core';
-import PostItem from './Post/postItem.js';
+import PostItem from './Post/postItem.jsx';
 
 export default function Posts({setCurrentId}) {
     const {posts, isLoading}=useSelector((state)=>state.posts);

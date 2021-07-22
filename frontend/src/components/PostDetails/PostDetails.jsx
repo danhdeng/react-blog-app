@@ -5,7 +5,8 @@ import {useDispatch,useSelector} from 'react-redux';
 import {useParams,useHistory} from "react-router-dom";
 import moment from 'moment';
 import {getPost, searchPosts} from '../../actions/posts';
-import PostItem from '../Posts/Post/postItem.js';
+import PostItem from '../Posts/Post/postItem.jsx';
+import CommentSection from './CommentSection.jsx';
 
 export default function PostDetails() {
     const {post, posts, isLoading} = useSelector((state)=>state.posts);
@@ -13,22 +14,17 @@ export default function PostDetails() {
     const dispatch=useDispatch();
     const history=useHistory();
     const {id}=useParams();
-
+    
     useEffect(()=>{
         dispatch(getPost(id));
     },[id]);
 
     useEffect(()=>{
-      console.log(post);
       if(post) dispatch(searchPosts({search: 'none', tags: post?.tags?.join(",")}));
-  },[post]);
-
-     const recommendedPosts=posts.filter(({_id})=>_id !==post._id);
-
-    const openPost=()=>{
-        history.push(`/posts/${post._id}`);
-    }
-
+    },[post]); 
+    
+    const recommendedPosts=(posts && post) ? posts.filter(({_id})=>_id !==post._id) : [];
+    
     if (!post) return null;
 
     if (isLoading) {
@@ -50,7 +46,7 @@ export default function PostDetails() {
           <Divider style={{ margin: '20px 0' }} />
           <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
           <Divider style={{ margin: '20px 0' }} />
-          <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+          <CommentSection post={post} />
           <Divider style={{ margin: '20px 0' }} />
         </div>
         <div className={classes.imageSection}>

@@ -127,3 +127,24 @@ export const searchPosts=async (req, res)=>{
         res.status(404).json({message: err.message});
     }
 }
+
+export const createComment=async(req, res)=>{
+    const {comment} =req.body;
+    console.log("comment:", comment);
+    if(!req.userId){
+        return res.status(400).json({message: 'Unauthenticated'});
+    }
+    const {id:_id}=req.params;
+    if(!mongoose.Types.ObjectId.isValid(_id)){
+        return res.status(404).json(`No Post with that id ${_id}`);
+    }
+    
+    try{
+        const post= await PostMessage.findById(_id);
+        post.comments.push(comment);
+        const updatedPost=await PostMessage.findByIdAndUpdate(_id, post, {new: true});
+        return res.status(200).json(updatedPost);
+    }catch(err){
+        console.error(err.message);
+    }
+}

@@ -2,7 +2,7 @@ import React, {useState}from 'react';
 import {Container} from '@material-ui/core';
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar';
-import Home from './components/Home/Home.js';
+import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
 import PostDetails from './components/PostDetails/PostDetails';
 

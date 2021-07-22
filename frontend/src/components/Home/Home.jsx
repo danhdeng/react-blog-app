@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 import {Container, Grow, Grid, Paper, AppBar, TextField, Button} from '@material-ui/core';
-import Posts from "../Posts/Posts.js";
-import PostForm from "../Form/Form.js";
+import Posts from "../Posts/Posts";
+import PostForm from "../Form/Form";
 import useStyles from './styles.js';
 import Pagination from '../Pagination/Pagination';
 import { useHistory, useLocation } from 'react-router-dom';

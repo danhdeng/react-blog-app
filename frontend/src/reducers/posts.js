@@ -1,4 +1,4 @@
-import {FETCH_ALL, CREATE, DELETE, UPDATE, SEARCH, START_LOADING, END_LOADING, FETCH_POST} from '../constants/actionTypes';
+import {FETCH_ALL, CREATE, DELETE, UPDATE, SEARCH, START_LOADING, END_LOADING, FETCH_POST,COMMENT} from '../constants/actionTypes';
 
 export const postsReducer =(state={ isLoading: true, posts: [] }, action) => {
     switch(action.type){
@@ -11,6 +11,11 @@ export const postsReducer =(state={ isLoading: true, posts: [] }, action) => {
                 ...state, 
                 post: action.payload.post,
             };
+        case COMMENT:
+            return {
+                ...state, 
+                posts:state.posts.map((post)=>(post._id===action.payload._id ? action.payload : post))
+           };     
         case FETCH_ALL:
         return {
             ...state, 

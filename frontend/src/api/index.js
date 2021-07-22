@@ -18,7 +18,8 @@ export const deletePost=(id)=>API.delete(`${posts}/${id}`);
 export const likePost=(id)=>API.patch(`${posts}/${id}/likePost`);
 export const searchPosts=(searchQuery)=>API.get(`${posts}/search?searchQuery=${searchQuery.search || "none"}&tags=${searchQuery.tags}`);
 
-export const signIn=(formData)=>API.post(`${user}/signin`, formData);
+export const createComment=(id, comment)=>API.post(`${posts}/${id}/commentPost`, {comment});
 
+export const signIn=(formData)=>API.post(`${user}/signin`, formData);
 export const signUp=(formData)=>API.post(`${user}/signUp`, formData);
  

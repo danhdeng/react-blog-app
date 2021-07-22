@@ -18,7 +18,6 @@ export default function PostForm({currentId, setCurrentId}) {
     const dispatch=useDispatch();
     const post=useSelector((state)=>currentId ? state.posts.find((p)=>p._id===currentId): null);
     const [user, ]=useState( JSON.parse(localStorage.getItem('profile')));
-    const [tags, setTags]=useState([]);
     const history=useHistory();
     useEffect(()=>{
         if(post){
